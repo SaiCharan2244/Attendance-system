@@ -1,0 +1,29 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Attendance System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Attendance System</h1>
+    <form id="attendanceForm">
+        <input type="text" id="studentName" placeholder="Enter student name" required />
+        <button type="submit">Mark Present</button>
+    </form>
+    <div id="response"></div>
+    <script>
+        document.getElementById('attendanceForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const name = document.getElementById('studentName').value;
+            const response = await fetch('/mark', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({name: name})
+            });
+            const result = await response.json();
+            document.getElementById('response').innerText = result.message;
+        });
+    </script>
+</body>
+</html>
